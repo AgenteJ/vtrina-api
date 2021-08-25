@@ -1,7 +1,6 @@
 # vtrina-api
 
-## Para iniciar, siga as instruções abaixo:
-Siga todas as etapas
+### Siga as instruções abaixo:
 
 #### Instalação
 ```
@@ -10,5 +9,5 @@ $ npm install
 
 ### Iniciar
 ```
-npm run serve
+npm start
 ```
