@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Buscar cep</title>
+    <link rel="stylesheet" href="./bootstrap.min.css">
+    <link rel="stylesheet" href="./style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        let result;
+
+        function loading(is) {
+            if (is) {
+                $("#load").show();
+                $("#search").hide();
+            } else {
+                $("#load").hide();
+                $("#search").show();
+            }
+        }
+
+        $(document).ready(function () {
+            loading(false)
+            $(".table").hide();
+            $(".alert").hide();
+            $("#btn").click(function () {
+                var cep = $('#cep').val();
+                if (cep) {
+                    loading(true)
+                    $.get("http://localhost:3000/find/" + cep, function (data) {
+                            $("#log").html(data.logradouro);
+                            $("#bai").html(data.bairro);
+                            $("#local").html(data.localidade);
+                            $("#uf").html(data.uf);
+                            $("#ibge").html(data.ibge);
+                            $("#ddd").html(data.ddd);
+
+                        }).done(function () {
+                            $(".table").show();
+                            $(".alert").hide();
+                            loading(false)
+                        })
+                        .fail(function () {
+                            $(".table").hide();
+                            $(".alert").show();
+                            loading(false);
+                        })
+                } else {
+                    $(".alert").show();
+                }
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <main>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="card w-50 shadow">
+                    <div class="card-body">
+                        <h4 class="py-0 m-0">Cadê meu CEP? </h4>
+                        <small class="small text-secondary">Sistema de busca de CEP</small>
+                        <div class="input-group mb-3 py-3">
+                            <input id="cep" type="number"  class="form-control" placeholder="Digite seu cep aqui"
+                                aria-label="Recipient's username" aria-describedby="button-addon2" />
+                            <button id="btn" class="btn btn-outline-secondary" type="button" id="button-addon2">
+                                <div id="search">Pesquisar</div>
+                                <div id="load" class="spinner-border spinner-border-sm text-primary" role="status">
+                                </div>
+                            </button>
+                        </div>
+                        <div class="alert alert-danger" role="alert">
+                            Informe um <b>CEP</b> válido.
+                        </div>
+                        <table class="table table-bordered">
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Logradouro</th>
+                                    <td id="log"></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Bairro</th>
+                                    <td id="bai"></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Localidade</th>
+                                    <td id="local"></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">UF</th>
+                                    <td id="uf"></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">IBGE</th>
+                                    <td id="ibge"></td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">DDD</th>
+                                    <td id="ddd"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+</body>
+
+</html>
